@@ -12,33 +12,38 @@ int main( int argc, char *argv[]){
         return 1;
     }
 
-    SDL_Rect rect;
-    rect.x = 0;
-    rect.y = 0;
-    rect.w = 100;
-    rect.h = 80;
-
-    //Background Color
-    SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, 0 );
-    SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
-    SDL_RenderClear(renderer);
-    SDL_RenderPresent(renderer);
-
+    int a = 0;
     SDL_Event windowEvent;
-
     while (true)
     {
+        a++;
         if(SDL_PollEvent(&windowEvent)){
             if(SDL_QUIT == windowEvent.type){
                 break;
             }
         }
-        SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+
+
+        // Background Color
+        SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, 0);
+        SDL_SetRenderDrawColor(renderer, 255, 0, 255, 255);
+        SDL_RenderClear(renderer);
+        SDL_RenderPresent(renderer);
+
+        SDL_Rect rect{
+            .x = a,
+            .y = 0,
+            .w = 100,
+            .h = 80
+        };
+
+        SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
         //SDL_RenderDrawRect(renderer, &rect);
         SDL_RenderFillRect(renderer, &rect);
         SDL_RenderPresent(renderer);
-        SDL_RenderPresent(renderer);
+        
     }
+
     SDL_DestroyWindow(window);
     SDL_Quit();
 
