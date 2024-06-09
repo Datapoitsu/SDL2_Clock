@@ -4,7 +4,7 @@
 #include <ctime>
 #define PI 3.141592654
 
-const int WIDTH = 300, HEIGHT = 300;
+const int WIDTH = 400, HEIGHT = 400;
 
 int main( int argc, char *argv[])
 {
@@ -15,6 +15,11 @@ int main( int argc, char *argv[])
     {
         std::cout << "Could now create window: " << SDL_GetError() << std::endl;
         return 1;
+    }
+
+    int ClockSize = (HEIGHT - 100) / 2;
+    if(WIDTH < HEIGHT){
+        ClockSize = (WIDTH - 100) / 2;
     }
 
     SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, 0);
@@ -52,15 +57,16 @@ int main( int argc, char *argv[])
                 SDL_SetRenderDrawColor(renderer, 255,255,255, 255);
             }
             float angle = fmod(PI * 2.0 / 60 * i, PI * 2.0);
-            SDL_RenderDrawLine(renderer, WIDTH / 2.0 + cos(angle) * 105.0, HEIGHT / 2.0 + sin(angle) * 105.0, WIDTH / 2.0 + cos(angle) * 110.0, HEIGHT / 2.0 + sin(angle) * 110.0);
+            SDL_RenderDrawLine(renderer, WIDTH / 2.0 + cos(angle) * 0.95 * ClockSize, HEIGHT / 2.0 + sin(angle) * 0.95 * ClockSize, WIDTH / 2.0 + cos(angle) * ClockSize, HEIGHT / 2.0 + sin(angle) * ClockSize);
         }
 
         // Arrows
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-        SDL_RenderDrawLine(renderer, WIDTH / 2, HEIGHT / 2, WIDTH / 2.0 + cos(fmod((Hours + 9.0) / 12.0 * PI * 2.0, PI * 2.0)) * 60.0, HEIGHT / 2.0 + sin(fmod((Hours + 9.0) / 12.0 * PI * 2.0, PI * 2.0)) * 60.0);
-        SDL_RenderDrawLine(renderer, WIDTH / 2, HEIGHT / 2, WIDTH / 2.0 + cos(fmod((Minutes + 45.0) / 60.0 * PI * 2.0, PI * 2.0)) * 90.0, HEIGHT / 2.0 + sin(fmod((Minutes + 45.0) / 60.0 * PI * 2.0, PI * 2.0)) * 90.0);
+        SDL_RenderDrawLine(renderer, WIDTH / 2, HEIGHT / 2, WIDTH / 2.0 + cos(fmod((Hours + 9.0) / 12.0 * PI * 2.0, PI * 2.0)) * 0.6 * ClockSize, HEIGHT / 2.0 + sin(fmod((Hours + 9.0) / 12.0 * PI * 2.0, PI * 2.0)) * 0.6 * ClockSize);
+
+        SDL_RenderDrawLine(renderer, WIDTH / 2, HEIGHT / 2, WIDTH / 2.0 + cos(fmod((Minutes + 45.0) / 60.0 * PI * 2.0, PI * 2.0)) * 0.85 * ClockSize, HEIGHT / 2.0 + sin(fmod((Minutes + 45.0) / 60.0 * PI * 2.0, PI * 2.0)) * 0.85 * ClockSize);
         SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
-        SDL_RenderDrawLine(renderer, WIDTH / 2, HEIGHT / 2, WIDTH / 2.0 + cos(fmod((Seconds + 45.0) / 60.0 * PI * 2.0, PI * 2.0)) * 100.0, HEIGHT / 2.0 + sin(fmod((Seconds + 45.0) / 60.0 * PI * 2.0, PI * 2.0)) * 100.0);
+        SDL_RenderDrawLine(renderer, WIDTH / 2, HEIGHT / 2, WIDTH / 2.0 + cos(fmod((Seconds + 45.0) / 60.0 * PI * 2.0, PI * 2.0)) * 0.90 * ClockSize, HEIGHT / 2.0 + sin(fmod((Seconds + 45.0) / 60.0 * PI * 2.0, PI * 2.0)) * 0.90 * ClockSize);
 
         SDL_RenderPresent(renderer);
     }
