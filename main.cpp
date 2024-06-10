@@ -74,7 +74,6 @@ int main( int argc, char *argv[])
         {
             float angle = fmod(PI * 2.0 / 60 * i, PI * 2.0);
             SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-            float angle = fmod(PI * 2.0 / 60 * i, PI * 2.0);
 
             if(i % 5 == 0)
             {
@@ -90,7 +89,6 @@ int main( int argc, char *argv[])
         SDL_RenderDrawLine(renderer, WIDTH / 2, HEIGHT / 2, WIDTH / 2.0 + cos(fmod((Minutes + 45.0) / 60.0 * PI * 2.0, PI * 2.0)) * 0.80 * ClockSize, HEIGHT / 2.0 + sin(fmod((Minutes + 45.0) / 60.0 * PI * 2.0, PI * 2.0)) * 0.80 * ClockSize);
         SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
         SDL_RenderDrawLine(renderer, WIDTH / 2, HEIGHT / 2, WIDTH / 2.0 + cos(fmod((Seconds + 45.0) / 60.0 * PI * 2.0, PI * 2.0)) * 0.90 * ClockSize, HEIGHT / 2.0 + sin(fmod((Seconds + 45.0) / 60.0 * PI * 2.0, PI * 2.0)) * 0.90 * ClockSize);
-        SDL_RenderDrawLine(renderer, WIDTH / 2, HEIGHT / 2, WIDTH / 2.0 - cos(fmod((Seconds + 45.0) / 60.0 * PI * 2.0, PI * 2.0)) * 0.05 * ClockSize, HEIGHT / 2.0 - sin(fmod((Seconds + 45.0) / 60.0 * PI * 2.0, PI * 2.0)) * 0.05 * ClockSize);
         for (int i = 0; i < ClockBoardCorners; i++)
         {
             SDL_Vertex vertex_1 = {{WIDTH / 2.0, HEIGHT / 2.0}, {50, 50, 50, 0}, {1, 1}};
