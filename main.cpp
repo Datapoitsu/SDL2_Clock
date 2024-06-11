@@ -26,7 +26,6 @@ int main( int argc, char *argv[])
 
     SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, 0);
 
-    const float ClockBoardSize = 160;
     const int ClockBoardCorners = 32;
 
     SDL_Event windowEvent;
@@ -56,8 +55,8 @@ int main( int argc, char *argv[])
         for (int i = 0; i < ClockBoardCorners; i++)
         {
             SDL_Vertex vertex_1 = {{WIDTH / 2.0, HEIGHT / 2.0}, {255, 255, 255, 255}, {1, 1}};
-            SDL_Vertex vertex_2 = {{(float)(WIDTH / 2.0 + (cos(PI * 2.0 / ClockBoardCorners * i)) * ClockBoardSize), (float)(HEIGHT / 2.0 + (sin(PI * 2.0 / ClockBoardCorners * i)) * ClockBoardSize)}, {255, 255, 255, 255}, {1, 1}};
-            SDL_Vertex vertex_3 = {{(float)(WIDTH / 2.0 + (cos(PI * 2.0 / ClockBoardCorners * (i + 1))) * ClockBoardSize), (float)(HEIGHT / 2.0 + (sin(PI * 2.0 / ClockBoardCorners * (i + 1))) * ClockBoardSize)}, {255, 255, 255, 255}, {1, 1}};
+            SDL_Vertex vertex_2 = {{(float)(WIDTH / 2.0 + (cos(PI * 2.0 / ClockBoardCorners * i)) * 1.05 * ClockSize), (float)(HEIGHT / 2.0 + (sin(PI * 2.0 / ClockBoardCorners * i)) * 1.05 * ClockSize)}, {255, 255, 255, 255}, {1, 1}};
+            SDL_Vertex vertex_3 = {{(float)(WIDTH / 2.0 + (cos(PI * 2.0 / ClockBoardCorners * (i + 1))) * 1.05 * ClockSize), (float)(HEIGHT / 2.0 + (sin(PI * 2.0 / ClockBoardCorners * (i + 1))) * 1.05 * ClockSize)}, {255, 255, 255, 255}, {1, 1}};
 
             // Put them into array
             SDL_Vertex vertices[] = {
