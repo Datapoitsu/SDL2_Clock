@@ -5,17 +5,23 @@
 #define PI 3.141592654
 
 // -- Preference variables -- //
-int width = 400, height = 400;
+int width = 400;
+int height = 400;
+
 float hourArrowLength = 0.55;
 float minuteArrowLength = 0.75;
 float secondArrowLength = 0.80;
+
 float markStartLenght = 0.90;
 float markEndLenght = 0.95;
 float markFiveStartLenght = 0.85;
 float markFiveEndLenght = 0.95;
+
 float boardSize = 1.0f;
 float emptySize = 0.1f;
 float knobSize = 0.025f;
+int ClockBoardCorners = 32;
+
 SDL_Color backGroundColor = {125,125,125,255};
 SDL_Color boardColor = {255,255,255,255};
 SDL_Color hourArrowColor = {0,0,0,255};
@@ -24,7 +30,9 @@ SDL_Color secondArrowColor = {255,0,0,255};
 SDL_Color markerColor = {0,0,0,255};
 SDL_Color markerFiveColor = {0,0,0,255};
 SDL_Color knobColor = {50,50,50,255};
-const int ClockBoardCorners = 32;
+
+
+void *configData[] = { &width, &height, &hourArrowLength, &minuteArrowLength, &secondArrowLength, &markStartLenght, &markEndLenght, &markFiveStartLenght, &markFiveEndLenght, &boardSize,&emptySize,&knobSize, &ClockBoardCorners, &backGroundColor, &boardColor, &hourArrowColor, &minuteArrowColor, &secondArrowColor, &markerColor, &markerFiveColor, &knobColor};
 
 // -- Don't touch variables -- //
 int sizeMultiplier = 0;
@@ -41,9 +49,75 @@ int SetClockSize(SDL_Window *window)
     return size;
 }
 
+void readConfig()
+{
+    // -- Reading config -- //
+    FILE *fptr;
+    fptr = fopen("config.txt", "r");
+
+    if(fptr == NULL)
+    {
+        return;
+    }
+
+    char myString[100];
+    memset(&myString, 0, 100);
+    int index = 0;
+    int doubleDotIndex = -1;
+    while(fgets(myString, 99, fptr))
+    {
+        for(int i = 0; i < strlen(myString); i++)
+        {
+            if(myString[i] == ':')
+            {
+                doubleDotIndex = i;
+            }
+            if(doubleDotIndex != -1 && myString[i] == '.')
+            {
+                *(float*)configData[index] = atof(&myString[doubleDotIndex + 1]);
+                break;
+            }
+            if(doubleDotIndex != -1 && myString[i] == '{')
+            {
+                i++;
+                unsigned char values[4];
+                int valueIndex = 0;
+                for(int k = i + 1; k < strlen(myString); k++)
+                {
+                    if(myString[k] == ',' || myString[k] == '}'){
+                        char *holder = (char *)malloc(k-i + 1);
+                        memcpy(holder,&myString[i],k-i);
+                        holder[k - i] = '\0';
+                        values[valueIndex] = atoi(holder);
+                        i = k + 1;
+                        free(holder);
+                        valueIndex++;
+                    }
+                }
+                (*(SDL_Color*)configData[index]) = {values[0], values[1], values[2], values[3]};
+                break;
+            }
+            if(myString[i + 1] == '\0' || myString[i + 1] == '\n' || myString[i + 1] == EOF || i == strlen(myString))
+            {
+                *(int*)configData[index] = atoi(&myString[doubleDotIndex + 1]);
+                break;
+            }
+        }
+        index++;
+        doubleDotIndex = -1;
+        memset(&myString, 0, 100);
+    }
+    
+    // Close the file
+    fclose(fptr); 
+}
+
 int main(int argc, char *argv[])
 {
     SDL_Init(SDL_INIT_EVERYTHING);
+
+    readConfig();
+
     SDL_Window *window = SDL_CreateWindow("SDL Clock", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN);
 
     if (window == NULL)
